@@ -1,0 +1,34 @@
+#include <RTClib.h>
+#include <Wire.h> 
+
+RTC_DS1307 rtc; 
+
+
+char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
+
+void setup () {
+  Serial.begin(9600);
+  if (! rtc.begin()) { 
+    Serial.println("DS1307 não encontrado"); 
+    while(1); 
+  }
+  if (! rtc.isrunning()) { 
+    Serial.println("DS1307 rodando!"); 
+   
+  }
+  delay(100); 
+}
+
+void loop () {
+    DateTime now = rtc.now();
+    Serial.print("Data: "); 
+    Serial.print('/'); 
+    Serial.print(" / Horas: "); 
+    Serial.print(now.hour(), DEC); 
+    Serial.print(':'); 
+    Serial.print(now.minute(), DEC); 
+    Serial.print(':'); 
+    Serial.print(now.second(), DEC); 
+    Serial.println(); 
+    delay(1000); 
+}
