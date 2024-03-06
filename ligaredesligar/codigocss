@@ -1,0 +1,65 @@
+int hora = 1;
+int minuto = 0;
+int horadetroca = 2;  // Change time in 24-hour format (e.g., 13 for 1 PM)
+int horadetroca2 = 14;
+int duracao_dia_em_hora = 24;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+
+  digitalWrite(13, LOW);
+  digitalWrite(12, HIGH);
+}
+
+bool ar1Desligado() { return (digitalRead(13) == LOW); }
+
+bool ar2Ligado() { return (digitalRead(12) == HIGH); }
+
+bool ar1Ligado() { return (digitalRead(13) == HIGH); }
+
+bool ar2Desligado() { return (digitalRead(12) == LOW); }
+
+void loop() {
+  for (int i = 0; i < duracao_dia_em_hora; i++) {
+    if (hora == horadetroca && ar1Desligado()) {
+      Serial.println("Ligar ar condicionado 1");
+      digitalWrite(13, HIGH);
+    }
+    if (hora == horadetroca && ar2Ligado()) {
+      Serial.println("Desligar ar condicionado 2");
+      digitalWrite(12, LOW);
+    }
+    if (hora == horadetroca2 && ar1Ligado()) {
+      Serial.println("Desligar ar condicionado 1");
+      digitalWrite(13, LOW);
+    }
+    if (hora == horadetroca2 && ar2Desligado()) {
+      Serial.println("Ligar ar condicionado 2");
+      digitalWrite(12, HIGH);
+    }
+
+    atualizarHora();
+  }
+}
+
+void atualizarHora() {
+  minuto++;
+
+  if (minuto > 59) {
+    hora++;
+    minuto = 0;
+  }
+
+  if (hora > 23) {
+    hora = 0;
+  }
+
+  if (minuto % 30 == 0) {
+    Serial.print(hora);
+    Serial.print(":");
+    Serial.println(minuto);
+  }
+  delay(10);
+}
