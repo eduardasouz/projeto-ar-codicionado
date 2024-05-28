@@ -1,0 +1,21 @@
+int qtd_movimentos = 0;
+
+void setup() {
+  pinMode(2, INPUT);
+  pinMode(13, OUTPUT);
+  Serial.begin(115200);
+ 
+  attachInterrupt(digitalPinToInterrupt(2), somarMovimento, RISING);
+
+}
+
+void somarMovimento(){
+  qtd_movimentos = qtd_movimentos + 1;
+}
+
+void loop() {
+ Serial.println(qtd_movimentos);
+delay(1000);
+}
+
+
