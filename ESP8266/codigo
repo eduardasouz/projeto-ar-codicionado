@@ -1,0 +1,28 @@
+#include <ESP8266WiFi.h>
+
+
+int qtd_movimentos = 0;
+const int interruptPin = 14; // D1 corresponde ao GPIO5
+
+void ICACHE_RAM_ATTR funcaoInterrupcao();
+
+void ICACHE_RAM_ATTR  somarMovimento(){
+
+  qtd_movimentos = qtd_movimentos + 1;
+}
+
+void setup() {
+  pinMode(interruptPin, INPUT); // Define o pino para entrada com pull-up interno
+  //pinMode(13, OUTPUT);
+  Serial.begin(115200);
+ 
+  attachInterrupt(digitalPinToInterrupt(interruptPin), somarMovimento, RISING);
+}
+
+
+
+void loop() {
+  Serial.println(qtd_movimentos);
+  delay(100);
+}
+
