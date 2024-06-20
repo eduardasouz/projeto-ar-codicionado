@@ -33,3 +33,41 @@ void loop() {
   Serial.println(qtd_movimentos);
   delay(100);
 }
+
+
+
+**VERSÃO COMENTADA**
+
+#include <ESP8266WiFi.h>  // Inclui a biblioteca ESP8266WiFi para utilizar funções específicas do ESP8266
+
+int qtd_movimentos = 0;  // Declara uma variável global para contar os movimentos, inicialmente definida como 0
+
+const int interruptPin = 14;  // Define o pino de interrupção. Pino D1 no ESP8266 corresponde ao GPIO14
+
+void ICACHE_RAM_ATTR funcaoInterrupcao();  // Declara a função de interrupção, mas sem implementação (não utilizada neste código)
+
+void ICACHE_RAM_ATTR somarMovimento(){  // Define a função de interrupção que será chamada quando ocorrer um evento de interrupção
+  qtd_movimentos = qtd_movimentos + 1;  // Incrementa a variável qtd_movimentos em 1 a cada interrupção
+}
+
+void setup() {
+  pinMode(interruptPin, INPUT);  // Configura o pino de interrupção como entrada
+  Serial.begin(115200);  // Inicializa a comunicação serial com a taxa de transmissão de 115200 bps
+
+  // Estas duas condições são redundantes e não fazem sentido no contexto atual
+  // Pode-se removê-las, pois não têm impacto no funcionamento do código
+  if (millis() < qtd_movimentos){
+    qtd_movimentos = millis(); 
+  }
+  
+  if (millis() - qtd_movimentos > 500){
+    qtd_movimentos = millis();
+  }
+  
+  attachInterrupt(digitalPinToInterrupt(interruptPin), somarMovimento, RISING);  // Configura a interrupção no pino definido para acionar na borda de subida
+} 
+
+void loop() {
+  Serial.println(qtd_movimentos);  // Imprime o valor atual de qtd_movimentos na porta serial
+  delay(100);  // Aguarda 100 milissegundos antes de repetir o loop
+}
