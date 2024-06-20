@@ -42,7 +42,7 @@ void loop() {
 
 int qtd_movimentos = 0;  // Declara uma variável global para contar os movimentos, inicialmente definida como 0
 
-const int interruptPin = 14;  // Define o pino de interrupção. Pino D1 no ESP8266 corresponde ao GPIO14
+const int interruptPin = 14;  // Define o pino de interrupção. Pino D5 no ESP8266 corresponde ao GPIO14
 
 void ICACHE_RAM_ATTR funcaoInterrupcao();  // Declara a função de interrupção, mas sem implementação (não utilizada neste código)
 
