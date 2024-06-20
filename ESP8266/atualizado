@@ -1,0 +1,28 @@
+#include <ESP8266WiFi.h>
+
+int qtd_movimentos = 0;               // Contador de movimentos
+const int interruptPin = 14;          // Pino de interrupção (D1 corresponde ao GPIO14)
+unsigned long ultimoMovimento = 0;    // Armazena o tempo do último movimento
+const unsigned long intervalo = 100;  // Intervalo mínimo entre movimentos em milissegundos
+
+// Função chamada pela interrupção
+void ICACHE_RAM_ATTR somarMovimento() {
+  unsigned long tempoAtual = millis(); // Obtém o tempo atual em milissegundos
+  
+  // Verifica se o tempo decorrido desde o último movimento é maior que o intervalo
+  if (tempoAtual - ultimoMovimento >= intervalo) {
+    qtd_movimentos++;                // Incrementa o contador de movimentos
+    ultimoMovimento = tempoAtual;    // Atualiza o tempo do último movimento
+  }
+}
+
+void setup() {
+  pinMode(interruptPin, INPUT);      // Define o pino de interrupção como entrada
+  Serial.begin(115200);              // Inicializa a comunicação serial a 115200 bps
+  attachInterrupt(digitalPinToInterrupt(interruptPin), somarMovimento, RISING); // Configura a interrupção no pino
+}
+
+void loop() {
+  Serial.println(qtd_movimentos);    // Imprime a quantidade de movimentos no monitor serial
+  delay(100);                        // Aguarda 100 milissegundos antes de repetir
+}
