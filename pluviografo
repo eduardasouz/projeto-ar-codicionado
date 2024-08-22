@@ -103,7 +103,7 @@ void metodoPublisher() {
     String payload = "";
     serializeJson(jsonDoc, payload);
 
-    client.publish("topic_name", payload); 
+    client.publish(topic_name, payload); 
     amostrasTotais = 0; 
     amostrasValidas = 0;
     acumulador = 0;
