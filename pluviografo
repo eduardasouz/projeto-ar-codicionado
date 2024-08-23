@@ -82,24 +82,13 @@ void metodoPublisher() {
   if (amostrasTotais >= JANELA_FILTRO) {
     StaticJsonDocument<300> jsonDoc;
     jsonDoc["RSSI"] = WiFi.RSSI();
-    jsonDoc["nivel"] = 0;
+    jsonDoc["milimetro de chuva"] = 0;
     jsonDoc["erro"] = false;
-    jsonDoc["invalido"] = false;
 
-    // se amostras válidas forem diferentes das amostras totais houve erro em alguma aquisição de dados
-    if (amostrasTotais != amostrasValidas) { 
-      if (amostrasValidas > 0) {
-        jsonDoc["nivel"] = acumulador / amostrasValidas;
-      } else { // Se amostras válidas for igual a 0 o valor será zero e o conjunto de dados inválidos
-        jsonDoc["nivel"] = 0;
-        jsonDoc["invalido"] = true;
-      }
-      jsonDoc["erro"] = true;
-    } else { // todos os dados são válidos
-      jsonDoc["nivel"] = acumulador / JANELA_FILTRO;
-      jsonDoc["erro"] = false;
-    }
-  
+    //colocar loop do codigo original
+    
+    
+     
     String payload = "";
     serializeJson(jsonDoc, payload);
 
