@@ -14,6 +14,7 @@ byte ECHO_PIN = 14;
 unsigned long dataIntevalPrevTime = 0;      // will store last time data was send
 unsigned long availableIntevalPrevTime = 0; // will store last time "available" was send
 
+const int QTD_AGUA_CHUVA = 3;// valor constante inteiro não altera é o valor da quantidade de agua que cai na bascula
 int qtd_movimentos = 0;  // Declara uma variável para contar os movimentos, inicialmente definida como 0
 unsigned long tempoUsado_contabilizarUnicaVez = 500;  // Declarar uma variável que determine um tempo que contabilize o movimento uma única vez
 unsigned long tempo_atual = 0;  // Variável que determina o tempo atual em milissegundos
@@ -82,7 +83,7 @@ void metodoPublisher() {
   if (amostrasTotais >= JANELA_FILTRO) {
     StaticJsonDocument<300> jsonDoc;
     jsonDoc["RSSI"] = WiFi.RSSI();
-    jsonDoc["milimetro de chuva"] = 0;
+    jsonDoc["milimetro de chuva"] = qtd_movimentos * QTD_AGUA_CHUVA;
     jsonDoc["erro"] = false;
 
     //colocar loop do codigo original
